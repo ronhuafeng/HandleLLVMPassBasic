@@ -216,11 +216,14 @@ namespace {
         bool runOnFunction(Function& F) override {
             MypassCounter++;
 
+            // 如果不是 main 函數，就不做處理
             if (F.getName().equals("main") == false)
             {
                 return false;
             }
 
+
+            // 獲取 printf 函數
             Module* m = F.getParent();
             Function* printFun = m->getFunction("printf");
             if (nullptr == printFun)
@@ -231,17 +234,13 @@ namespace {
             ///////////////////////////////////////////
             Module* mod = F.getParent();
 
-
-
-
             BasicBlock * pb = nullptr;
 
 
             errs() << "Function is: " << F.getName() << '\n';
+
+            // 按照如下格式重命名 BasicBlock
             // Name each basic block in the format 'FunctionName_BasicBlockID'
-
-
-
             int count;
             count = 0;
             for (Function::iterator b: F)
@@ -249,11 +248,11 @@ namespace {
                 pb = b;
                 IRBuilder<> Builder(pb);
                 b->setName(F.getName() + "_" + Twine(count));
-                //errs() << "Basic Block '" << b->getName() << "'\n";
             }
 
 
 
+            // 依次在每個 BasicBlock 處插入打印語句
             count = 0;
             for (Function::iterator b : F)
             {
@@ -261,23 +260,7 @@ namespace {
                 IRBuilder<> Builder(pb);
                 Builder.SetInsertPoint(pb, pb->begin());
 
-
-
-//                ConstantInt* const_int_6 = ConstantInt::get(mod->getContext(), APInt(32, StringRef("6"), 10));
                 std::vector<Value *> ArgsV;
-//                ArgsV.push_back(const_int_6);
-                // print basicblock id number
-                // errs() << "Number " << count << ":\t" << *b << '\n';
-
-//                AllocaInst* c = Builder.CreateAlloca(Type::getInt32Ty(F.getContext()), nullptr, "c");
-//                c->setAlignment(4);
-
-//                Builder.CreateAlignedStore(const_int_6, c, 4);
-//                Value* CurC = Builder.CreateAlignedLoad(c, 4);
-//                Value* NextC = Builder.CreateAdd(CurC, Builder.getInt32(1));
-//                Builder.CreateAlignedStore(NextC, c, 4);
-
-//                ArgsV.push_back(NextC);
 
                 Twine format(pb->getName());
 
@@ -290,10 +273,7 @@ namespace {
                 ArgsV.push_back(FormatString);
                 ArgsV.push_back(Builder.getInt32(42));
                 Builder.CreateCall(getPrintF(Builder, mod), ArgsV);
-                //createPrintF(Builder, "Run ", ArgsV, mod);
 
-                //errs() << count << ":\t" << *b << '\n';
-                //return true;
             }
             return true;
         }
@@ -310,8 +290,4 @@ static void registerMyPass(const PassManagerBuilder &,
 static RegisterStandardPasses
         RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible,
                        registerMyPass);
-
-
-
-
 ```
