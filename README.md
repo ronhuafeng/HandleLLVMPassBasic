@@ -65,7 +65,7 @@ int main()
 
 代碼放在最後吧，畢竟比較長。
 
-[實現代碼](###實現代碼)
+[實現代碼](###PassCode)
 
 最後的註冊 Pass 的部分：
 
@@ -122,7 +122,7 @@ main_07	42
 
 ## 附錄
 
-### 實現代碼
+###<a name="PassCode"/>實現代碼
 
 ```c++
 //===- Mypass.cpp - Example code from "Writing an LLVM Pass" ---------------===//
