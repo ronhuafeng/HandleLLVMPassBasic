@@ -69,7 +69,7 @@ int main()
 
 最後的註冊 Pass 的部分：
 
-```c++
+```cpp
 char MyInstrument::ID = 0;
 static RegisterPass<MyInstrument> Z("MyInstrument", "MyInstrument Pass", false, false);
 
@@ -124,7 +124,7 @@ main_07	42
 
 ###<a name="PassCode"/>實現代碼
 
-```c++
+```cpp
 //===- Mypass.cpp - Example code from "Writing an LLVM Pass" ---------------===//
 //
 //                     The LLVM Compiler Infrastructure
