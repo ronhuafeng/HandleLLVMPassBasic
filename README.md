@@ -65,7 +65,7 @@ int main()
 
 代碼放在最後吧，畢竟比較長。
 
-[實現代碼](###PassCode)
+[實現代碼](#PassCode)
 
 最後的註冊 Pass 的部分：
 
